@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+        <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <link href="index.css" rel="stylesheet">
+    <script src="js/index.js"></script>
+
+</head>
+
+<body>
+ 
+    <div id="top" class="topFramework">
+        <div id="header" class="framework">
+            <div class="frameworkBody">
+                <div id="nav">
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        {%if category==''%}
+                        <a class="navbar-brand focus" href="/">首页</a>
+                        {%else%}
+                        <a class="navbar-brand" href="/">首页</a>
+                        {%endif%}
+                        
+                        {%for cate in categories%}
+                        {%if category==cate.id%}
+                        <a class="navbar-brand focus" href="/?category={{cate.id}}"style='background-color:#C1E2B3;'>{{cate.name}}</a>
+                        {%else%}
+                        <a class="navbar-brand" href="/?category={{cate.id}}">{{cate.name}}</a>
+                        {%endif%}
+                        {%endfor%}
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
+                               
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                    aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+   
+    <div id="bottom" class="topFramework">
+       
+        <div id=leftBox class="bottoFramework">
+           
+            <div id="main" class="framework">
+                <div class="frameworkTitle">
+                </div>
+                <div style="height:100%;overflow-y:auto">
+                    {%for content in contents%}
+                <div class="frameworkBody">
+                   
+                        标题：<h3>{{content.title}}</h3>
+                        作者：<p>{{content.user.username}}</p>
+                        时间：<p>{{content.addTime|date('Y年m月d日 H:i:s',-486)}}</p>
+                        阅读：<p>{{content.views}}</p>
+                        评论：<p>10</p>
+                        简介：<p>{{content.description}}</p>
+                        <a href='/view?contentid={{content.id}}'>阅读全文</a>
+                      
+                </div>
+                {%endfor%}
+                <div class="frameworkBody">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                          <li class="page-item">
+                              {%if page <= 1%}
+                            <a class="page-link" href="javascript}}" aria-label="Previous">
+                             <span aria-hidden="true">&laquo;</span> 没有上一页
+                            </a>
+                            {%else%}
+                            <a class="page-link" href="/?category={{category}}&page={{page+1}}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span> 上一页
+                            </a>
+                            {%endif%}
+                          </li>
+                          <li class="page-item">
+                            {%if pages>0%}
+                            <a class="page-link" href="javascript:" aria-label="Previous">
+                            {{page}}/{{pages}}
+                            </a>
+                            {%else%}
+                            <a class="page-link" href="javascript:" aria-label="Previous">
+                                当前分类没有分页
+                            </a>
+                            {%endif%}
+                          </li>
+                         
+                          <li class="page-item">
+                              
+                              {%if page >=pages%}
+                            <a class="page-link" href="javascript:" aria-label="Next">
+                                没有下一页<span aria-hidden="true">&raquo;</span> 
+                            </a>
+                              {%else%}
+                            <a class="page-link" href="/?category={{category}}&page={{page+1}}" aria-label="Next">
+                                下一页<span aria-hidden="true">&raquo;</span> 
+                            </a>
+                            {%endif%}
+                          </li>
+                        </ul>
+                      </nav>
+                </div>
+            </div>
+            </div>
+           
+        </div>
+        <div id=rightBox class="bottoFramework">
+            {% if userInfo._id %}
+            <div id="userInfo" class="framework" >
+                <div class="frameworkTitle">
+                    用户信息
+                </div>
+                <div class="frameworkBody">
+
+                    <p><span>{{userInfo.username}}</span></p>
+                     {% if userInfo.isAdmin %}
+                     <p><span>你好，管理员,<a href="/admin">进入管理</a></span></p>
+                     {% else %}
+                     <p><span>你好，欢迎光临我的博客！</span></p>
+                     {% endif %}
+                    <p ><span><a href="javascript" id="logout">退出</a></span></p>
+                </div>
+            </div>
+            {% else %}
+            <div id="loginBox" class="framework">
+                <div class="frameworkBody">
+                    <div class="frameworkTitle">
+                        登录
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">用户名</label>
+                            <input name="username" type="text" class="input-mini" placeholder="Username"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">密码</label>
+                            <input name="password" type="password" class="input-mini" id="exampleInputPassword1"
+                                placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">登录</button>
+                        <p>还没注册?<a href="javascript:">马上注册</a></p>
+                        <p id="message"></p>
+                    </form>
+                </div>
+            </div>
+            <div id="registerBox" class="framework"style="display:none">
+                <div class="frameworkTitle">
+                    注册
+                </div>
+                <div class="frameworkBody">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">用户名</label>
+                            <input name="username" type="text" class="input-mini" placeholder="Username"
+                                aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">密码</label>
+                            <input name="password" type="password" class="input-mini"
+                                placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">密码确认</label>
+                            <input name="repassword" type="password" class="input-mini" 
+                                placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">注册</button>
+                        <p>已有账号?<a href="javascript:">马上登录</a></p>
+                        <p id="message"></p>
+                    </form>
+
+
+                </div>
+            </div>
+            {%endif%}
+           
+            
+        </div>
+
+    </div>
+</body>
+
+</html>

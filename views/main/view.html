@@ -1,0 +1,74 @@
+{%extends 'layout.html'%}
+{%block content%}
+
+<div id="viewmain" class="framework">
+    <div class="frameworkTitle">
+    </div>
+    <div style="height:100%;overflow-y:auto">
+
+        <div class="frameworkBody">
+            <h1>{{content.title}}</h1>
+            <p>
+                作者:{{content.user.username}}
+                时间：{{content.addTime|date('Y年m月d日 H:i:s',-486)}}
+                阅读：{{content.views}}
+                评论：{{content.comments.length}}
+            </p>
+            <p>{{content.content}}</p>
+        </div>
+    </div>
+</div>
+<div id="viewcomment" class="framework">
+    <div class="frameworkTitle">
+    </div>
+
+    <div style="height:100%;overflow-y:auto">
+    <div class="frameworkBody">
+        <h3 ><strong>评论：</strong><span class="em">一共有：<em id='messageCount'></em>条评论</span></h3>
+            {%if userInfo._id%}
+        <p>
+            <textarea id="messageContent" style="width:90%;height:40%"></textarea><button id="messageBtn"
+                class="submit">提交</button>
+            <input type="hidden" id="contentId" value="{{content._id.toString()}}" name='contentid'>
+        </p>
+        {%else%}
+        <p style="line-height:30px ;">你还没有登录，请先登录！</p>
+        {%endif%}
+        <!-- <div class="messageList">
+            <p>
+                还没有留言
+            </p>
+        </div> -->
+        
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous"href=''>
+                            <span aria-hidden="true">&laquo;</span> 上一页
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link">
+                            第{{page}}页
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next"href=''>
+                            下一页<span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+           
+            <div class='messageList'>
+
+           
+          
+        </div>
+
+    </div>
+    </div>
+</div>
+
+<script src="js/comment.js"></script>
+{%endblock%}
